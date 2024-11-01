@@ -1,0 +1,25 @@
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.models import Model
+
+# Contoh data pengguna dan rating
+ratings = np.array([[5, 3, 0, 1],
+                    [4, 0, 0, 1],
+                    [1, 1, 0, 5],
+                    [0, 0, 5, 4]])
+
+# Mendefinisikan autoencoder
+input_layer = Input(shape=(ratings.shape[1],))
+encoded = Dense(2, activation='relu')(input_layer)
+decoded = Dense(ratings.shape[1], activation='sigmoid')(encoded)
+
+autoencoder = Model(input_layer, decoded)
+autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+
+# Melatih autoencoder
+autoencoder.fit(ratings, ratings, epochs=50, batch_size=2)
+
+# Menggunakan model untuk merekomendasikan
+encoded_ratings = autoencoder.predict(ratings)
+print(encoded_ratings)
