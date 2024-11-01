@@ -1,0 +1,22 @@
+from surprise import Dataset, Reader
+from surprise import SVD
+from surprise.model_selection import train_test_split
+from surprise import accuracy
+from surprise import Dataset
+
+# Load dataset
+data = Dataset.load_builtin('ml-100k')  # Contoh dataset MovieLens 100k
+reader = Reader(line_format='user item rating timestamp', sep='\t')
+
+# Split data
+trainset, testset = train_test_split(data.build_full_trainset(), test_size=0.2)
+
+# Use SVD algorithm
+model = SVD()
+model.fit(trainset)
+
+# Make predictions
+predictions = model.test(testset)
+
+# Evaluate accuracy
+accuracy.rmse(predictions)
