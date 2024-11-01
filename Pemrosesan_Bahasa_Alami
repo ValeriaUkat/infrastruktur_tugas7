@@ -1,0 +1,21 @@
+import nltk
+from nltk.sentiment import SentimentIntensityAnalyzer
+
+# Mengunduh resource
+nltk.download('vader_lexicon')
+
+# Contoh ulasan pengguna
+reviews = [
+    "I absolutely loved this series!",
+    "It was okay, not great.",
+    "I didn't like the ending at all.",
+    "This is the best movie I've seen in a long time!"
+]
+
+# Inisialisasi analisis sentimen
+sia = SentimentIntensityAnalyzer()
+
+# Menganalisis ulasan
+for review in reviews:
+    score = sia.polarity_scores(review)
+    print(f"Review: {review} -> Sentiment Score: {score}")
